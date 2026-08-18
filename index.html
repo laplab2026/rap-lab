@@ -1770,26 +1770,74 @@ function startRecording() {
         'audio-playback-container'
     ).classList.add('hidden');
 
-
     if (
         !navigator.mediaDevices ||
-        !navigator.mediaDevices.getUserMedia
+        !navigator.mediaDevices.getUserMedia ||
+        !window.MediaRecorder
     ) {
-
+        console.log('録音機能に対応していないブラウザです');
         return;
-
     }
-
 
     navigator.mediaDevices
         .getUserMedia({
             audio: true
         })
-
         .then(stream => {
 
-            mediaRecorder =
-                new MediaRecorder(stream);
+            /*
+             * iPhone / Android / PCで
+             * 対応している音声形式を自動選択
+             */
+
+            const mimeTypes = [
+                'audio/mp4',
+                'audio/webm;codecs=opus',
+                'audio/webm',
+                'audio/ogg;codecs=opus'
+            ];
+
+            let supportedMimeType = '';
+
+            for (const type of mimeTypes) {
+
+                if (
+                    MediaRecorder.isTypeSupported(type)
+                ) {
+                    supportedMimeType = type;
+                    break;
+                }
+
+            }
+
+            try {
+
+                mediaRecorder =
+                    supportedMimeType
+                        ? new MediaRecorder(
+                            stream,
+                            {
+                                mimeType:
+                                    supportedMimeType
+                            }
+                        )
+                        : new MediaRecorder(stream);
+
+            } catch (error) {
+
+                console.error(
+                    'MediaRecorder作成エラー:',
+                    error
+                );
+
+                stream
+                    .getTracks()
+                    .forEach(
+                        track => track.stop()
+                    );
+
+                return;
+            }
 
 
             document.getElementById(
@@ -1798,13 +1846,16 @@ function startRecording() {
 
 
             mediaRecorder.ondataavailable =
-                e => {
+                event => {
 
                     if (
-                        e.data.size > 0
+                        event.data &&
+                        event.data.size > 0
                     ) {
 
-                        audioChunks.push(e.data);
+                        audioChunks.push(
+                            event.data
+                        );
 
                     }
 
@@ -1814,13 +1865,36 @@ function startRecording() {
             mediaRecorder.onstop =
                 () => {
 
+                    document.getElementById(
+                        'recording-badge'
+                    ).classList.add('hidden');
+
+
                     if (
                         audioChunks.length === 0
                     ) {
 
-                        return;
+                        stream
+                            .getTracks()
+                            .forEach(
+                                track =>
+                                    track.stop()
+                            );
 
+                        return;
                     }
+
+
+                    /*
+                     * 実際に使用された
+                     * 録音形式を使用する
+                     */
+
+                    const actualMimeType =
+                        mediaRecorder.mimeType ||
+                        supportedMimeType ||
+                        audioChunks[0].type ||
+                        'audio/webm';
 
 
                     const audioBlob =
@@ -1828,9 +1902,22 @@ function startRecording() {
                             audioChunks,
                             {
                                 type:
-                                    'audio/webm'
+                                    actualMimeType
                             }
                         );
+
+
+                    /*
+                     * 古い録音URLを解放
+                     */
+
+                    if (recordedAudioUrl) {
+
+                        URL.revokeObjectURL(
+                            recordedAudioUrl
+                        );
+
+                    }
 
 
                     recordedAudioUrl =
@@ -1844,8 +1931,26 @@ function startRecording() {
                             'audio-player'
                         );
 
+
+                    audioPlayer.pause();
+
+                    audioPlayer.removeAttribute(
+                        'src'
+                    );
+
+                    audioPlayer.load();
+
+
                     audioPlayer.src =
                         recordedAudioUrl;
+
+
+                    /*
+                     * iPhone / Androidで
+                     * 再読み込みしてから再生
+                     */
+
+                    audioPlayer.load();
 
 
                     document.getElementById(
@@ -1865,15 +1970,36 @@ function startRecording() {
                 };
 
 
-            mediaRecorder.start();
+            mediaRecorder.onerror =
+                event => {
+
+                    console.error(
+                        '録音エラー:',
+                        event
+                    );
+
+                    document.getElementById(
+                        'recording-badge'
+                    ).classList.add(
+                        'hidden'
+                    );
+
+                };
+
+
+            /*
+             * 少しずつデータを取得
+             */
+
+            mediaRecorder.start(250);
 
         })
 
-        .catch(err => {
+        .catch(error => {
 
-            console.log(
-                "Microphone access denied:",
-                err
+            console.error(
+                'マイクへのアクセスに失敗:',
+                error
             );
 
             document.getElementById(
