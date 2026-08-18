@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://laplab2026.github.io/rap-lab/sitemap.xml
