@@ -1,91 +1,149 @@
 <!DOCTYPE html>
 <html lang="ja" class="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>FREESTYLE RAP LAB - フリースタイル練習アプリ</title>
+    <meta charset="UTF-8">
 
-<script src="https://cdn.tailwindcss.com"></script>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
 
-<script>
-tailwind.config = {
-    darkMode: 'class',
-    theme: {
-        extend: {
-            colors: {
-                brand: {
-                    black: '#09090b',
-                    card: '#121215',
-                    border: '#27272a',
-                    yellow: '#facc15',
-                    gold: '#eab308',
-                    red: '#ef4444',
-                    neon: '#ccff00'
+    <title>FREESTYLE RAP LAB｜フリースタイルラップ練習アプリ</title>
+
+    <meta
+        name="description"
+        content="FREESTYLE RAP LABは、フリースタイルラップの練習ができる無料Webアプリ。お題・指定単語・制限時間をランダム生成して、毎日のラップ練習をサポートします。"
+    >
+
+    <meta
+        name="keywords"
+        content="フリースタイルラップ,ラップ練習,ラップ,韻,MCバトル,フリースタイル,ラップ お題,ラップ 練習"
+    >
+
+    <meta name="robots" content="index, follow">
+
+    <link
+        rel="canonical"
+        href="https://laplab2026.github.io/rap-lab/"
+    >
+
+    <!-- OGP -->
+    <meta property="og:type" content="website">
+
+    <meta
+        property="og:title"
+        content="FREESTYLE RAP LAB｜フリースタイルラップ練習アプリ"
+    >
+
+    <meta
+        property="og:description"
+        content="お題・指定単語・制限時間を使ってフリースタイルラップを練習できる無料Webアプリ。"
+    >
+
+    <meta
+        property="og:url"
+        content="https://laplab2026.github.io/rap-lab/"
+    >
+
+    <meta
+        property="og:site_name"
+        content="FREESTYLE RAP LAB"
+    >
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#09090b',
+                            card: '#121215',
+                            border: '#27272a',
+                            yellow: '#facc15',
+                            gold: '#eab308',
+                            red: '#ef4444',
+                            neon: '#ccff00'
+                        }
+                    },
+                    fontFamily: {
+                        sans: [
+                            'Impact',
+                            'Montserrat',
+                            'Hiragino Kaku Gothic ProN',
+                            'sans-serif'
+                        ],
+                    }
                 }
-            },
-            fontFamily: {
-                sans: ['Impact', 'Montserrat', 'Hiragino Kaku Gothic ProN', 'sans-serif'],
             }
         }
-    }
-}
-</script>
+    </script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,900;1,900&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<style>
-body {
-    font-family: 'Noto Sans JP', 'Montserrat', sans-serif;
-    background-color: #09090b;
-    color: #f4f4f5;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-}
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,900;1,900&family=Noto+Sans+JP:wght@500;700;900&display=swap"
+        rel="stylesheet"
+    >
 
-.font-impact {
-    font-family: 'Montserrat', 'Impact', sans-serif;
-    font-weight: 900;
-    letter-spacing: 0.05em;
-}
+    <!-- Site Style -->
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Montserrat', sans-serif;
+            background-color: #09090b;
+            color: #f4f4f5;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
 
-.text-glow {
-    text-shadow: 0 0 12px rgba(250, 204, 21, 0.5);
-}
+        .font-impact {
+            font-family: 'Montserrat', 'Impact', sans-serif;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+        }
 
-.box-glow {
-    box-shadow: 0 0 20px rgba(250, 204, 21, 0.15);
-}
+        .text-glow {
+            text-shadow: 0 0 12px rgba(250, 204, 21, 0.5);
+        }
 
-::-webkit-scrollbar {
-    width: 6px;
-}
+        .box-glow {
+            box-shadow: 0 0 20px rgba(250, 204, 21, 0.15);
+        }
 
-::-webkit-scrollbar-track {
-    background: #09090b;
-}
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
 
-::-webkit-scrollbar-thumb {
-    background: #27272a;
-    border-radius: 3px;
-}
+        ::-webkit-scrollbar-track {
+            background: #09090b;
+        }
 
-@keyframes pulse-fast {
-    0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.85;
-        transform: scale(1.02);
-    }
-}
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 3px;
+        }
 
-.animate-pulse-fast {
-    animation: pulse-fast 1s infinite ease-in-out;
-}
-</style>
+        @keyframes pulse-fast {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.85;
+                transform: scale(1.02);
+            }
+        }
+
+        .animate-pulse-fast {
+            animation: pulse-fast 1s infinite ease-in-out;
+        }
+    </style>
 </head>
 
 <body class="min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-brand-yellow selection:text-black">
