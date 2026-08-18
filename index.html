@@ -1370,12 +1370,6 @@ START PRACTICE
 
 function startPractice() {
 
-    stopRecording();
-
-    document.getElementById(
-        'view-setup'
-    ).classList.add('hidden');
-
     document.getElementById(
         'view-result'
     ).classList.add('hidden');
@@ -1384,13 +1378,12 @@ function startPractice() {
         'view-practice'
     ).classList.remove('hidden');
 
-    timerRemaining =
-        timerDuration;
+    timerRemaining = timerDuration;
 
     checkedWords.clear();
 
-    practiceStartTime =
-        Date.now();
+    /* 実際の練習開始時刻 */
+    practiceStartTime = Date.now();
 
     actualPracticeTime = 0;
 
@@ -1411,30 +1404,27 @@ function startPractice() {
 
     clearInterval(timerInterval);
 
-    timerInterval =
-        setInterval(() => {
+    timerInterval = setInterval(() => {
 
-            timerRemaining--;
+        timerRemaining--;
 
-            updateTimerDisplay();
+        updateTimerDisplay();
 
-            if (
-                timerRemaining <= 3 &&
-                timerRemaining > 0
-            ) {
-                playBeep(440, 0.1);
-            }
+        if (
+            timerRemaining <= 3 &&
+            timerRemaining > 0
+        ) {
+            playBeep(440, 0.1);
+        }
 
-            if (
-                timerRemaining <= 0
-            ) {
-                finishPractice(true);
-            }
+        if (
+            timerRemaining <= 0
+        ) {
+            finishPractice(true);
+        }
 
-        }, 1000);
+    }, 1000);
 }
-};
-
 
 /* =========================
    STATS
@@ -2738,12 +2728,29 @@ function stopRecording() {
         'hidden'
     );
 
+   function stopRecording() {
+
+    recordingSessionId++;
+
+    document.getElementById(
+        'recording-badge'
+    ).classList.add('hidden');
+
     if (
         mediaRecorder &&
         mediaRecorder.state !== 'inactive'
     ) {
-        mediaRecorder.stop();
+        try {
+            mediaRecorder.stop();
+        } catch (error) {
+            console.warn(
+                '録音停止エラー:',
+                error
+            );
+        }
     }
+
+    mediaRecorder = null;
 }
 
 </script>
