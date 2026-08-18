@@ -1589,11 +1589,25 @@ function updateBeatSetting() {
    START PRACTICE
 ========================= */
 
-function startPractice() {
+function stopRecording() {
+
+    recordingSessionId++;
 
     document.getElementById(
-        'view-setup'
-    ).classList.add('hidden');
+        'recording-badge'
+    ).classList.add(
+        'hidden'
+    );
+
+    if (
+        mediaRecorder &&
+        mediaRecorder.state !== 'inactive'
+    ) {
+        mediaRecorder.stop();
+    }
+
+    mediaRecorder = null;
+}
 
     document.getElementById(
         'view-result'
@@ -2666,22 +2680,22 @@ const sessionId = recordingSessionId;
 
 function stopRecording() {
 
+    recordingSessionId++;
+
     document.getElementById(
         'recording-badge'
     ).classList.add(
         'hidden'
     );
 
-
     if (
         mediaRecorder &&
-        mediaRecorder.state !==
-        'inactive'
+        mediaRecorder.state !== 'inactive'
     ) {
-
         mediaRecorder.stop();
-
     }
+
+    mediaRecorder = null;
 }
 
 </script>
