@@ -1329,11 +1329,20 @@ window.onload = function() {
    STATS
 ========================= */
 
+function getTodayKey() {
+    const now = new Date();
+
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+
+    return `rap_lab_date_${year}-${month}-${day}`;
+}
+
+
 function loadStats() {
 
-    const todayKey =
-        'rap_lab_date_' +
-        new Date().toISOString().slice(0,10);
+    const todayKey = getTodayKey();
 
     statsToday =
         parseInt(
@@ -1353,10 +1362,7 @@ function loadStats() {
 
 function incrementStats() {
 
-    const todayKey =
-        'rap_lab_date_' +
-        new Date().toISOString().slice(0,10);
-
+    const todayKey = getTodayKey();
     statsToday++;
     statsTotal++;
 
