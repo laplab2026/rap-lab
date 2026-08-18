@@ -1589,25 +1589,7 @@ function updateBeatSetting() {
    START PRACTICE
 ========================= */
 
-function stopRecording() {
 
-    recordingSessionId++;
-
-    document.getElementById(
-        'recording-badge'
-    ).classList.add(
-        'hidden'
-    );
-
-    if (
-        mediaRecorder &&
-        mediaRecorder.state !== 'inactive'
-    ) {
-        mediaRecorder.stop();
-    }
-
-    mediaRecorder = null;
-}
 
     document.getElementById(
         'view-result'
@@ -2557,10 +2539,10 @@ const sessionId = recordingSessionId;
                      */
 
                     const actualMimeType =
-                        mediaRecorder.mimeType ||
-                        supportedMimeType ||
-                        audioChunks[0].type ||
-                        'audio/webm';
+    mediaRecorder?.mimeType ||
+    supportedMimeType ||
+    audioChunks[0].type ||
+    'audio/webm';
 
 
                     const audioBlob =
@@ -2694,8 +2676,6 @@ function stopRecording() {
     ) {
         mediaRecorder.stop();
     }
-
-    mediaRecorder = null;
 }
 
 </script>
