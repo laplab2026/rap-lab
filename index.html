@@ -1364,7 +1364,75 @@ window.onload = function() {
     setTimerSec(60);
 
     generateAllRandom();
+/* =========================
+START PRACTICE
+========================= */
 
+function startPractice() {
+
+    stopRecording();
+
+    document.getElementById(
+        'view-setup'
+    ).classList.add('hidden');
+
+    document.getElementById(
+        'view-result'
+    ).classList.add('hidden');
+
+    document.getElementById(
+        'view-practice'
+    ).classList.remove('hidden');
+
+    timerRemaining =
+        timerDuration;
+
+    checkedWords.clear();
+
+    practiceStartTime =
+        Date.now();
+
+    actualPracticeTime = 0;
+
+    document.getElementById(
+        'active-topic'
+    ).textContent =
+        `「${currentTopic}」`;
+
+    renderActiveWords();
+
+    updateTimerDisplay();
+
+    initAudioContext();
+
+    startBeat();
+
+    startRecording();
+
+    clearInterval(timerInterval);
+
+    timerInterval =
+        setInterval(() => {
+
+            timerRemaining--;
+
+            updateTimerDisplay();
+
+            if (
+                timerRemaining <= 3 &&
+                timerRemaining > 0
+            ) {
+                playBeep(440, 0.1);
+            }
+
+            if (
+                timerRemaining <= 0
+            ) {
+                finishPractice(true);
+            }
+
+        }, 1000);
+}
 };
 
 
