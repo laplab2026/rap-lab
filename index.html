@@ -1345,7 +1345,8 @@ let selectedBeat = "boombap";
 let mediaRecorder = null;
 let audioChunks = [];
 let recordedAudioUrl = null;
-
+let recordingSessionId = 0;
+    
 let practiceStartTime = null;
 let actualPracticeTime = 0;
 
@@ -2412,6 +2413,9 @@ function playHiHat(t) {
 
 function startRecording() {
 
+    recordingSessionId++;
+
+const sessionId = recordingSessionId;
     audioChunks = [];
 
     document.getElementById(
